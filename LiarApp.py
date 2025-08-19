@@ -37,7 +37,6 @@ def get_tokenizer():
 def get_explainer():
     return LimeTextExplainer(class_names=CLASS_NAMES, random_state=0)
 
-# Prediction function
 def predict_proba_batch(texts):
     tokenizer = get_tokenizer()
     model = get_model()
@@ -45,24 +44,29 @@ def predict_proba_batch(texts):
     enc = tokenizer(
         texts,
         truncation=True, padding=True, max_length=MAX_LEN,
-        return_tensors="tf", return_attention_mask=True, return_token_type_ids=True,
+        return_tensors="tf"
     )
+
+    # Instead of dict → pass as list
     input_ids = tf.cast(enc["input_ids"], tf.int32)
     attn_mask = tf.cast(enc["attention_mask"], tf.int32)
     segs      = tf.cast(enc["token_type_ids"], tf.int32)
 
-    # Prepare inputs for the model
-    inputs = {"token_ids": input_ids, "segment_ids": segs, "padding_mask": attn_mask}
-    
-    # Get model predictions
-    logits = model(inputs, training=False) 
+    logits = model([input_ids, segs, attn_mask], training=False)
+
+    # Handle dict outputs
     if isinstance(logits, dict):
         logits = logits.get("logits", list(logits.values())[0])
 
-    logits = tf.convert_to_tensor(logits)        
-    p_real = tf.sigmoid(logits[..., 0])          
-    p_fake = 1.0 - p_real
-    probs = tf.stack([p_fake, p_real], axis=-1)   
+    logits = tf.convert_to_tensor(logits)
+
+    if logits.shape[-1] == 1:
+        p_real = tf.sigmoid(logits[..., 0])
+        p_fake = 1.0 - p_real
+        probs = tf.stack([p_fake, p_real], axis=-1)
+    else:
+        probs = tf.nn.softmax(logits, axis=-1)
+
     return probs.numpy()
 
 # Function to predict label and class index
