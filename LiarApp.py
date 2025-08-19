@@ -92,7 +92,7 @@ def explain_top_factors(text: str, class_idx: int, top_k: int = TOP_K):
 
 # UI setup
 text = st.text_area(
-    "Paste a claim:",
+    "Paste a statement:",
     height=120,
     placeholder="Insert text here..."
 )
