@@ -8,7 +8,7 @@ import tensorflow as tf
 
 # Constants
 MODEL_PATH = hf_hub_download(
-    repo_id="euansmith9/liar-bert-model",  
+    repo_id="euansmith9/liar_bert_model",  
     filename="liar_bert.keras"           
 )
 TOKENIZER_NAME = "bert-base-uncased"
