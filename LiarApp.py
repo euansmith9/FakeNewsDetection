@@ -5,6 +5,8 @@ from transformers import BertTokenizerFast
 from lime.lime_text import LimeTextExplainer
 from huggingface_hub import hf_hub_download
 import tensorflow as tf
+import keras_nlp 
+import keras_hub
 
 # Constants
 MODEL_PATH = hf_hub_download(
