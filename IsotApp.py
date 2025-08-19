@@ -99,7 +99,7 @@ def predict_and_contributions(text: str):
 text = st.text_area(
     "Paste a claim:",
     height=120,
-    placeholder="e.g., The new policy cut taxes for 90% of people."
+    placeholder="Insert text here..."
 )
 
 # Button to trigger prediction
