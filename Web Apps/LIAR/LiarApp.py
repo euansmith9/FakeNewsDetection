@@ -3,9 +3,14 @@ import tensorflow as tf
 import streamlit as st
 from transformers import BertTokenizerFast
 from lime.lime_text import LimeTextExplainer
+from huggingface_hub import hf_hub_download
+import tensorflow as tf
 
 # Constants
-MODEL_PATH = "liar_bert.keras"
+MODEL_PATH = hf_hub_download(
+    repo_id="your-username/liar-bert-model",  
+    filename="liar_bert.keras"           
+)
 TOKENIZER_NAME = "bert-base-uncased"
 MAX_LEN = 128
 THRESHOLD = 0.5                
