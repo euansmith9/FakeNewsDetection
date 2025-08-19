@@ -97,7 +97,7 @@ def predict_and_contributions(text: str):
 
 # Text input area
 text = st.text_area(
-    "Paste a claim:",
+    "Paste a news article:",
     height=120,
     placeholder="Insert text here..."
 )
@@ -127,4 +127,5 @@ if st.button("Check", use_container_width=True):
         else:
             st.subheader(f"Top {TOP_K} n-grams")
             st.write("No informative n-grams found in this input.")
+
 
