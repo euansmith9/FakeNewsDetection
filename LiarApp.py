@@ -55,7 +55,11 @@ def predict_proba_batch(texts):
     inputs = {"token_ids": input_ids, "segment_ids": segs, "padding_mask": attn_mask}
     
     # Get model predictions
-    logits = model(inputs, training=False)         
+    logits = model(inputs, training=False) 
+    if isinstance(logits, dict):
+        logits = logits.get("logits", list(logits.values())[0])
+
+    logits = tf.convert_to_tensor(logits)        
     p_real = tf.sigmoid(logits[..., 0])          
     p_fake = 1.0 - p_real
     probs = tf.stack([p_fake, p_real], axis=-1)   
