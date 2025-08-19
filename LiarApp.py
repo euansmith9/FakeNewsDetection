@@ -47,25 +47,20 @@ def predict_proba_batch(texts):
         return_tensors="tf"
     )
 
-    # Instead of dict → pass as list
-    input_ids = tf.cast(enc["input_ids"], tf.int32)
-    attn_mask = tf.cast(enc["attention_mask"], tf.int32)
-    segs      = tf.cast(enc["token_type_ids"], tf.int32)
+    inputs = {
+        "token_ids": tf.cast(enc["input_ids"], tf.int32),
+        "segment_ids": tf.cast(enc["token_type_ids"], tf.int32),
+        "padding_mask": tf.cast(enc["attention_mask"], tf.int32),
+    }
 
-    logits = model([input_ids, segs, attn_mask], training=False)
-
-    # Handle dict outputs
-    if isinstance(logits, dict):
-        logits = logits.get("logits", list(logits.values())[0])
+    logits = model(inputs, training=False)
 
     logits = tf.convert_to_tensor(logits)
 
-    if logits.shape[-1] == 1:
-        p_real = tf.sigmoid(logits[..., 0])
-        p_fake = 1.0 - p_real
-        probs = tf.stack([p_fake, p_real], axis=-1)
-    else:
-        probs = tf.nn.softmax(logits, axis=-1)
+    logits.shape[-1] == 1
+    p_real = tf.sigmoid(logits[..., 0])
+    p_fake = 1.0 - p_real
+    probs = tf.stack([p_fake, p_real], axis=-1)
 
     return probs.numpy()
 
