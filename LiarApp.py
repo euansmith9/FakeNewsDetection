@@ -56,8 +56,6 @@ def predict_proba_batch(texts):
     logits = model(inputs, training=False)
 
     logits = tf.convert_to_tensor(logits)
-
-    logits.shape[-1] == 1
     p_real = tf.sigmoid(logits[..., 0])
     p_fake = 1.0 - p_real
     probs = tf.stack([p_fake, p_real], axis=-1)
