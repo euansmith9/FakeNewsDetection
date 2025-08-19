@@ -1,0 +1,13 @@
+streamlit
+tensorflow-cpu==2.16.2
+transformers
+sentencepiece
+huggingface_hub
+keras-nlp
+keras-hub
+scikit-learn
+joblib
+nltk
+pandas
+numpy
+lime
