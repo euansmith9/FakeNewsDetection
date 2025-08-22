@@ -46,6 +46,8 @@ pipe = load_pipeline()
 tfidf = pipe.named_steps["tfidf"]
 clf   = pipe.named_steps["clf"]  # LogisticRegression
 
+print("Fitted?", hasattr(pipe.named_steps["tfidf"], "idf_"))
+
 # Function to predict label and contributions
 def predict_and_contributions(text: str):
 
@@ -127,5 +129,6 @@ if st.button("Check", use_container_width=True):
         else:
             st.subheader(f"Top {TOP_K} n-grams")
             st.write("No informative n-grams found in this input.")
+
 
 
