@@ -16,29 +16,33 @@ MODEL_PATH = hf_hub_download(
 TOKENIZER_NAME = "bert-base-uncased"
 MAX_LEN = 128
 THRESHOLD = 0.5                
-ABSTAIN_MARGIN = 0.05          
+ABSTAIN_MARGIN = 0.075          
 CLASS_NAMES = ["Fake", "Real"] 
 TOP_K = 5
 LIME_SAMPLES = 1000
 
+# Title and description
 st.set_page_config(page_title="Fake News Detection Web App", layout="centered")
 st.title("Short Statement - Fake News Detection")
 st.subheader("This app utilises a BERT model to classify short political statements as real or fake. " \
 "Disclaimer: This is a demo app and may not be accurate.")
 
-# Load the pre-trained model and tokenizer
+# Load the pre-trained model
 @st.cache_resource(show_spinner=False)
 def get_model():
     return tf.keras.models.load_model(MODEL_PATH)
 
+# Load the tokenizer
 @st.cache_resource(show_spinner=False)
 def get_tokenizer():
     return BertTokenizerFast.from_pretrained(TOKENIZER_NAME)
 
+# Load the LIME explainer
 @st.cache_resource(show_spinner=False)
 def get_explainer():
     return LimeTextExplainer(class_names=CLASS_NAMES, random_state=0)
 
+# Function to predict probabilities
 def predict_proba_batch(texts):
     tokenizer = get_tokenizer()
     model = get_model()
@@ -64,7 +68,7 @@ def predict_proba_batch(texts):
 
     return probs.numpy()
 
-# Function to predict label and class index
+# Function to classify text and get probabilities
 def predict_label_and_class(text: str):
     probs = predict_proba_batch([text])[0]      
     p_fake, p_real = float(probs[0]), float(probs[1])
@@ -92,7 +96,7 @@ def explain_top_factors(text: str, class_idx: int, top_k: int = TOP_K):
 
 # UI setup
 text = st.text_area(
-    "Paste a statement:",
+    "Paste a claim:",
     height=120,
     placeholder="Insert text here..."
 )
