@@ -19,7 +19,7 @@ THRESHOLD = 0.5
 ABSTAIN_MARGIN = 0.075          
 CLASS_NAMES = ["Fake", "Real"] 
 TOP_K = 5
-LIME_SAMPLES = 1000
+LIME_SAMPLES = 500
 
 # Title and description
 st.set_page_config(page_title="Fake News Detection Web App", layout="centered")
