@@ -7,7 +7,6 @@ from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 # Constants
 MODEL_PATH = "ISOT_LR_model.joblib" 
 THRESHOLD = 0.5
-ABSTAIN_MARGIN = 0.05
 TOP_K = 5
 CLASS_NAMES = {0: "Fake", 1: "Real"}  # assumes 0/1 labels
 
@@ -58,12 +57,8 @@ def predict_and_contributions(text: str):
     p_real = float(probs[np.where(classes == 1)[0][0]])
 
     # Decisiion logic
-    if abs(p_real - THRESHOLD) <= ABSTAIN_MARGIN:
-        label_str = "Unable to determine"
-        pred_class = 1 if p_real >= 0.5 else 0
-    else:
-        pred_class = 1 if p_real >= THRESHOLD else 0
-        label_str = CLASS_NAMES[pred_class]
+    pred_class = 1 if p_real >= THRESHOLD else 0
+    label_str = CLASS_NAMES[pred_class]
 
     # Vectorize once with the same tfidf used in training
     X = tfidf.transform([txt])          
@@ -127,6 +122,7 @@ if st.button("Check", use_container_width=True):
         else:
             st.subheader(f"Top {TOP_K} n-grams")
             st.write("No informative n-grams found in this input.")
+
 
 
 
