@@ -117,12 +117,14 @@ if st.button("Check", use_container_width=True):
         factors = explain_top_factors(text.strip(), class_idx, top_k=TOP_K)
 
     st.subheader(f"Top {TOP_K} factors")
+    factors = sorted(factors, key=lambda x: abs(x[1]), reverse=True)[:TOP_K]
 
-    target_label = CLASS_NAMES[class_idx] 
+    target_label = CLASS_NAMES[class_idx]        
+    other_label  = CLASS_NAMES[1 - class_idx]  
     st.table({
         "Token / phrase": [t for t, _ in factors],
         "Weight": [round(w, 4) for _, w in factors],
-        "Effect": [target_label for _ in factors],
+        "Effect": [target_label if w >= 0 else other_label for _, w in factors],
     })
 
 
