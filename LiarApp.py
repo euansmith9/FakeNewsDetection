@@ -110,7 +110,7 @@ if st.button("Check", use_container_width=True):
         label, class_idx, p_fake, p_real = predict_label_and_class(text.strip())
 
     st.header(label)
-    st.caption(f"Probability (Real): {p_real:.3f} • Probability (Fake): {p_fake:.3f}")
+    st.caption(f"Probability (Real): {p_real:.3f} \nProbability (Fake): {p_fake:.3f}")
 
     with st.spinner("Explaining..."):
         factors = explain_top_factors(text.strip(), class_idx, top_k=TOP_K)
