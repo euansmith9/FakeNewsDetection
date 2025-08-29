@@ -78,10 +78,10 @@ def predict_and_contributions(text: str):
 
     # Function to determine effect based on contribution and predicted class
     def effect(v, pred_cls):
-    if v >= 0:
-        return "Real"
-    else:
-        return "Fake"
+        if v >= 0:
+            return "Real"
+        else:
+            return "Fake"
 
     rows = [(feats_top[i], float(vals_top[i]), effect(vals_top[i], pred_class))
             for i in range(len(order))]
@@ -122,6 +122,7 @@ if st.button("Check", use_container_width=True):
         else:
             st.subheader(f"Top {TOP_K} n-grams")
             st.write("No informative n-grams found in this input.")
+
 
 
 
