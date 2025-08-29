@@ -108,7 +108,8 @@ if st.button("Check", use_container_width=True):
         label, p_fake, p_real, rows = predict_and_contributions(text.strip()) # Prediction and contributions
 
     st.header(label)
-    st.caption(f"Probability (Real): {p_real:.5f}\nProbability (Fake): {p_fake:.5f}") # Display results
+    st.caption(f"Probability (Real): {p_real:.5f}")
+    st.caption(f"Probability (Fake): {p_fake:.5f}" # Display results
 
     # Display contributions if available
     with st.spinner("Computing top n-grams..."):
@@ -122,6 +123,7 @@ if st.button("Check", use_container_width=True):
         else:
             st.subheader(f"Top {TOP_K} n-grams")
             st.write("No informative n-grams found in this input.")
+
 
 
 
