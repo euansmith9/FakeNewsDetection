@@ -116,10 +116,12 @@ if st.button("Check", use_container_width=True):
         factors = explain_top_factors(text.strip(), class_idx, top_k=TOP_K)
 
     st.subheader(f"Top {TOP_K} factors")
+
+    target_label = CLASS_NAMES[class_idx] 
     st.table({
         "Token / phrase": [t for t, _ in factors],
         "Weight": [round(w, 4) for _, w in factors],
-        "Effect": ["supports" if w > 0 else "opposes" for _, w in factors],
+            "Effect": [f"supports {target_label}" if w > 0 else f"opposes {target_label}" for _, w in factors],
     })
 
 
