@@ -122,7 +122,7 @@ if st.button("Check", use_container_width=True):
     st.table({
         "Token / phrase": [t for t, _ in factors],
         "Weight": [round(w, 4) for _, w in factors],
-            "Effect": [f"supports {target_label}" if w > 0 else f"opposes {target_label}" for _, w in factors],
+        "Effect": [target_label for _ in factors],
     })
 
 
