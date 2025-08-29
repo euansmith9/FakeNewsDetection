@@ -54,11 +54,11 @@ def predict_proba_batch(texts):
     )
 
     inputs = {
-        "token_ids": tf.cast(enc["input_ids"], tf.int32),
-        "segment_ids": tf.cast(enc["token_type_ids"], tf.int32),
-        "padding_mask": tf.cast(enc["attention_mask"], tf.int32),
+    "input_ids": tf.cast(enc["input_ids"], tf.int32),
+    "token_type_ids": tf.cast(enc["token_type_ids"], tf.int32),
+    "attention_mask": tf.cast(enc["attention_mask"], tf.int32),
     }
-
+    
     logits = model(inputs, training=False)
 
     logits = tf.convert_to_tensor(logits)
